@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="system">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="民法ⅠAの全131事例を、ランダム演習・苦手復習・模擬試験・暗記カードで学べる無料学習アプリです。">
+  <meta name="theme-color" content="#173f5f">
+  <title>民法ⅠA 学習アプリ</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="app-icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">本文へ移動</a>
+
+  <header class="app-header">
+    <div class="app-header__inner">
+      <button class="brand" type="button" data-nav="home" aria-label="ホームへ移動">
+        <span class="brand__mark" aria-hidden="true">法</span>
+        <span>
+          <strong>民法ⅠA</strong>
+          <small>事例問題トレーナー</small>
+        </span>
+      </button>
+      <nav class="desktop-nav" aria-label="メインメニュー">
+        <button type="button" class="nav-item is-active" data-nav="home" aria-current="page">ホーム</button>
+        <button type="button" class="nav-item" data-nav="study">学習</button>
+        <button type="button" class="nav-item" data-nav="mock">模擬試験</button>
+        <button type="button" class="nav-item" data-nav="bank">問題一覧</button>
+        <button type="button" class="nav-item" data-nav="settings">設定</button>
+      </nav>
+      <div class="header-actions">
+        <button id="globalSearchButton" class="icon-button" type="button" aria-label="問題を検索" title="検索（/）">⌕</button>
+        <button id="themeQuickButton" class="icon-button" type="button" aria-label="表示テーマを切り替え" title="テーマ切り替え">◐</button>
+        <button id="helpButton" class="icon-button" type="button" aria-label="ヘルプを開く" title="ヘルプ">?</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent" class="app-main" tabindex="-1">
+    <section id="view-home" class="app-view is-active" data-view="home" aria-labelledby="homeHeading">
+      <div class="hero-panel">
+        <div>
+          <p class="eyebrow">全131問・端末内保存</p>
+          <h1 id="homeHeading">今日やるべき問題が、すぐ分かる。</h1>
+          <p class="hero-copy">「ダメ・微妙・理解した」で記録し、苦手だけを重点復習。答案は外部に送信されません。</p>
+        </div>
+        <div class="hero-actions">
+          <button class="button button--primary button--large" type="button" data-quick="random-study">ランダム学習を始める</button>
+          <button class="button button--soft button--large" type="button" data-quick="bad-study">ダメだけ復習</button>
+        </div>
+      </div>
+
+      <section class="dashboard-section" aria-labelledby="summaryHeading">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">進捗</p>
+            <h2 id="summaryHeading">学習サマリー</h2>
+          </div>
+          <span id="lastStudyLabel" class="muted-text">まだ学習記録がありません</span>
+        </div>
+        <div id="summaryCards" class="summary-grid" aria-live="polite"></div>
+        <div class="mastery-panel">
+          <div class="mastery-panel__top">
+            <div>
+              <span class="muted-text">全体習得率</span>
+              <strong id="masteryPercent">0%</strong>
+            </div>
+            <span id="masteryCount">0 / 131問</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-label="全体習得率" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="masteryBar" class="progress-track__fill"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-section" aria-labelledby="quickHeading">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">クイックスタート</p>
+            <h2 id="quickHeading">目的から始める</h2>
+          </div>
+        </div>
+        <div id="quickActions" class="quick-grid">
+          <button class="quick-card" type="button" data-quick="weighted-study"><span class="quick-card__icon">↻</span><strong>苦手優先</strong><small>ダメ・微妙を多めに</small><span class="count-pill" data-count="weak">0問</span></button>
+          <button class="quick-card" type="button" data-quick="bad-study"><span class="quick-card__icon">×</span><strong>ダメだけ復習</strong><small>最後の評価がダメ</small><span class="count-pill" data-count="bad">0問</span></button>
+          <button class="quick-card" type="button" data-quick="unsure-study"><span class="quick-card__icon">△</span><strong>微妙だけ復習</strong><small>曖昧な問題を固める</small><span class="count-pill" data-count="unsure">0問</span></button>
+          <button class="quick-card" type="button" data-quick="unanswered-study"><span class="quick-card__icon">○</span><strong>未回答を進める</strong><small>まだ評価していない問題</small><span class="count-pill" data-count="unanswered">131問</span></button>
+          <button class="quick-card quick-card--accent" type="button" data-quick="mock-all"><span class="quick-card__icon">試</span><strong>全体で模擬試験</strong><small>全問題からランダム出題</small><span class="count-pill">開始</span></button>
+          <button class="quick-card quick-card--accent" type="button" data-quick="mock-bad"><span class="quick-card__icon">再</span><strong>できなかった問題で模試</strong><small>ダメ評価のみから出題</small><span class="count-pill" data-count="bad">0問</span></button>
+          <button class="quick-card" type="button" data-quick="memorize"><span class="quick-card__icon">暗</span><strong>暗記事項カード</strong><small>「これだけ暗記」を高速確認</small><span class="count-pill">全問</span></button>
+          <button class="quick-card" type="button" data-quick="precedent"><span class="quick-card__icon">判</span><strong>判例問題</strong><small>判例候補だけを抽出</small><span class="count-pill" data-count="precedent">0問</span></button>
+          <button class="quick-card" type="button" data-quick="favorites"><span class="quick-card__icon">★</span><strong>お気に入り</strong><small>自分で印を付けた問題</small><span class="count-pill" data-count="favorite">0問</span></button>
+        </div>
+      </section>
+
+      <section class="dashboard-section" aria-labelledby="lectureProgressHeading">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">授業回別</p>
+            <h2 id="lectureProgressHeading">習得状況</h2>
+          </div>
+          <button class="text-button" type="button" data-nav="bank">一覧で確認</button>
+        </div>
+        <div id="lectureProgressList" class="lecture-progress-list"></div>
+      </section>
+
+      <section class="dashboard-section" aria-labelledby="recentHeading">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">履歴</p>
+            <h2 id="recentHeading">最近の学習</h2>
+          </div>
+        </div>
+        <div id="recentActivity" class="activity-list empty-inline">まだ学習履歴がありません。</div>
+      </section>
+    </section>
+
+    <section id="view-study" class="app-view" data-view="study" aria-labelledby="studyHeading" hidden>
+      <div class="view-heading">
+        <div>
+          <p class="eyebrow">STUDY</p>
+          <h1 id="studyHeading">学習</h1>
+          <p id="studyContextLabel" class="muted-text">すべての問題</p>
+        </div>
+        <div class="view-heading__actions">
+          <button id="shareStudyButton" class="button button--ghost" type="button">共有</button>
+          <button id="reshuffleButton" class="button button--ghost" type="button">再シャッフル</button>
+        </div>
+      </div>
+
+      <details id="studyFiltersPanel" class="filter-panel">
+        <summary>出題条件・モードを変更 <span id="filteredCountBadge" class="count-pill">131問</span></summary>
+        <div class="filter-grid">
+          <label class="field"><span>学習モード</span><select id="studyModeSelect">
+            <option value="normal">通常演習</option>
+            <option value="article">条文当て</option>
+            <option value="conclusion">結論を考える</option>
+            <option value="essay">フル答案練習</option>
+            <option value="code">六法検索練習</option>
+            <option value="memorize">暗記事項カード</option>
+            <option value="precedent">判例問題</option>
+          </select></label>
+          <label class="field"><span>出題順</span><select id="studyOrderSelect">
+            <option value="random">ランダム</option>
+            <option value="weighted">苦手優先ランダム</option>
+            <option value="id-asc">問題番号順</option>
+            <option value="id-desc">問題番号逆順</option>
+            <option value="lecture">授業回順</option>
+            <option value="weakness">苦手度順</option>
+            <option value="unanswered">未回答優先</option>
+            <option value="favorite">お気に入り優先</option>
+          </select></label>
+          <label class="field"><span>授業回</span><select id="studyLectureSelect"></select></label>
+          <label class="field"><span>分野</span><select id="studyCategorySelect"></select></label>
+          <label class="field"><span>評価</span><select id="studyRatingSelect">
+            <option value="all">すべて</option>
+            <option value="unanswered">未回答だけ</option>
+            <option value="bad">ダメだけ</option>
+            <option value="unsure">微妙だけ</option>
+            <option value="weak">ダメ＋微妙</option>
+            <option value="good">理解しただけ</option>
+            <option value="mastered">習得済みだけ</option>
+            <option value="unmastered">未習得だけ</option>
+          </select></label>
+          <label class="field"><span>暗記事項の分類</span><select id="studyMemorizeTypeSelect">
+            <option value="all">すべて</option>
+            <option value="important">★重要</option>
+            <option value="number">数字を含む</option>
+            <option value="precedent">判例を含む</option>
+            <option value="contrast">対比を含む</option>
+            <option value="no-memorize">暗記不要</option>
+            <option value="other">その他</option>
+          </select></label>
+          <label class="field"><span>ID範囲</span><div class="inline-fields"><input id="studyIdMin" type="number" min="1" max="131" inputmode="numeric" placeholder="1"><span>〜</span><input id="studyIdMax" type="number" min="1" max="131" inputmode="numeric" placeholder="131"></div></label>
+          <label class="field field--wide"><span>キーワード</span><input id="studySearchInput" type="search" placeholder="例：無権代理、709条、時効"></label>
+          <div class="check-grid field--wide">
+            <label class="check"><input id="studyImportantOnly" type="checkbox"><span>★重要だけ</span></label>
+            <label class="check"><input id="studyPrecedentOnly" type="checkbox"><span>判例問題だけ</span></label>
+            <label class="check"><input id="studyFavoriteOnly" type="checkbox"><span>お気に入りだけ</span></label>
+            <label class="check"><input id="studyMemoOnly" type="checkbox"><span>メモありだけ</span></label>
+          </div>
+          <div class="filter-actions field--wide">
+            <button id="applyStudyFiltersButton" class="button button--primary" type="button">この条件で開始</button>
+            <button id="resetStudyFiltersButton" class="button button--ghost" type="button">条件をリセット</button>
+          </div>
+        </div>
+      </details>
+
+      <section id="studyEmptyState" class="empty-state" hidden>
+        <strong>該当する問題がありません。</strong>
+        <p>絞り込み条件を変更してください。</p>
+        <button class="button button--primary" type="button" id="emptyResetButton">条件をリセット</button>
+      </section>
+
+      <section id="studyCard" class="question-card" aria-live="polite">
+        <div class="question-card__topline">
+          <div id="studyMeta" class="meta-list"></div>
+          <div class="card-tools">
+            <button id="favoriteButton" class="tool-button" type="button" aria-pressed="false">☆ お気に入り</button>
+            <button id="directQuestionShareButton" class="tool-button" type="button">共有</button>
+          </div>
+        </div>
+
+        <div class="study-progress-row">
+          <span id="studyProgressText">1 / 131問</span>
+          <div class="mini-progress" aria-hidden="true"><span id="studyProgressBar"></span></div>
+          <span id="studyRoundText">第1周</span>
+        </div>
+
+        <article class="question-content">
+          <p id="modeInstruction" class="mode-instruction"></p>
+          <h2 class="content-label">問題</h2>
+          <div id="studyQuestionText" class="question-text"></div>
+        </article>
+
+        <section id="essayComposer" class="essay-composer" hidden>
+          <div class="section-heading-row section-heading-row--compact">
+            <label for="essayInput"><strong>自分の答案</strong></label>
+            <span id="essaySaveStatus" class="save-status">端末内に自動保存</span>
+          </div>
+          <textarea id="essayInput" rows="10" placeholder="①問題の所在 → ②規範 → ③あてはめ → ④結論 の順で書いてみましょう。"></textarea>
+          <div class="inline-actions"><button id="clearEssayButton" class="text-button text-button--danger" type="button">答案を消去</button></div>
+        </section>
+
+        <section id="memorizeFront" class="flashcard-front" hidden>
+          <span class="flashcard-front__label">暗記カード</span>
+          <strong>この問題の「これだけ暗記」を思い出してください。</strong>
+        </section>
+
+        <div id="stageControls" class="stage-controls"></div>
+        <section id="answerArea" class="answer-area" hidden aria-label="解答と解説">
+          <div id="essayComparison" class="comparison-grid" hidden>
+            <div class="answer-section"><h3>自分の答案</h3><div id="essayPreview" class="answer-text"></div></div>
+            <div class="answer-section answer-section--model"><h3>模範解答</h3><div id="essayModelAnswer" class="answer-text"></div></div>
+          </div>
+          <div id="answerSections"></div>
+
+          <section class="self-check-panel">
+            <h3>論述チェック</h3>
+            <div id="writingChecklist" class="checklist-grid">
+              <label><input type="checkbox" data-check="issue"><span>問題の所在を書いた</span></label>
+              <label><input type="checkbox" data-check="rule"><span>条文・規範を書いた</span></label>
+              <label><input type="checkbox" data-check="apply"><span>本問の事実をあてはめた</span></label>
+              <label><input type="checkbox" data-check="conclusion"><span>結論を書いた</span></label>
+            </div>
+            <p id="checklistSummary" class="muted-text">0 / 4項目を確認</p>
+          </section>
+
+          <section class="rating-panel" aria-labelledby="ratingHeading">
+            <div>
+              <h3 id="ratingHeading">この問題の理解度</h3>
+              <p>迷ったら厳しめに。あとから変更できます。</p>
+            </div>
+            <div class="rating-buttons" role="group" aria-label="理解度を選択">
+              <button class="rating-button rating-button--bad" type="button" data-rating="bad"><span>×</span><strong>ダメ</strong><small>解けなかった</small></button>
+              <button class="rating-button rating-button--unsure" type="button" data-rating="unsure"><span>△</span><strong>微妙</strong><small>曖昧・偶然</small></button>
+              <button class="rating-button rating-button--good" type="button" data-rating="good"><span>○</span><strong>理解した</strong><small>根拠まで説明可能</small></button>
+            </div>
+            <div id="ratingStatus" class="rating-status">未評価</div>
+          </section>
+
+          <section class="note-panel">
+            <div class="section-heading-row section-heading-row--compact"><label for="noteInput"><strong>自分用メモ</strong></label><span id="noteSaveStatus" class="save-status">端末内に保存</span></div>
+            <textarea id="noteInput" rows="4" placeholder="例：20条4項の催告と混同しない。相手が誰か確認。"></textarea>
+            <div class="inline-actions"><button id="deleteNoteButton" class="text-button text-button--danger" type="button">メモを削除</button></div>
+          </section>
+        </section>
+
+        <div class="question-controls" aria-label="問題操作">
+          <button id="previousQuestionButton" class="button button--ghost" type="button">← 前の問題</button>
+          <button id="showAnswerButton" class="button button--primary" type="button" aria-expanded="false">答えを見る</button>
+          <button id="nextQuestionButton" class="button button--soft" type="button">次の問題 →</button>
+        </div>
+        <p class="keyboard-hint">Space：答え　← / →：前後　1 / 2 / 3：評価　F：お気に入り</p>
+      </section>
+    </section>
+
+    <section id="view-mock" class="app-view" data-view="mock" aria-labelledby="mockHeading" hidden>
+      <div class="view-heading">
+        <div><p class="eyebrow">MOCK EXAM</p><h1 id="mockHeading">模擬試験</h1><p class="muted-text">制限時間なし。提出後に模範解答と比較して自己採点します。</p></div>
+      </div>
+
+      <section id="mockSetup" class="panel">
+        <div class="setup-highlight-grid">
+          <button class="setup-highlight" type="button" data-mock-preset="all"><span>全体</span><strong>全問題から模擬試験</strong><small>131問からランダムに出題</small></button>
+          <button class="setup-highlight setup-highlight--bad" type="button" data-mock-preset="bad"><span>復習</span><strong>できなかった問題だけ</strong><small>最後の評価が「ダメ」の問題</small></button>
+        </div>
+        <div class="form-grid">
+          <label class="field"><span>出題元</span><select id="mockSourceSelect">
+            <option value="all">全問題</option>
+            <option value="bad">ダメだけ</option>
+            <option value="unsure">微妙だけ</option>
+            <option value="weak">ダメ＋微妙</option>
+            <option value="unanswered">未回答だけ</option>
+            <option value="favorite">お気に入りだけ</option>
+            <option value="important">★重要だけ</option>
+            <option value="precedent">判例問題だけ</option>
+            <option value="current">現在の学習条件</option>
+            <option value="selected">問題一覧で選択中</option>
+          </select></label>
+          <label class="field"><span>問題数</span><select id="mockCountSelect">
+            <option value="5">5問</option><option value="10" selected>10問</option><option value="20">20問</option><option value="30">30問</option><option value="all">すべて</option>
+          </select></label>
+          <label class="field field--wide"><span>保存した問題セット</span><select id="mockCustomSetSelect"><option value="">使用しない</option></select></label>
+        </div>
+        <div class="source-preview"><strong id="mockSourceCount">対象：131問</strong><span id="mockSourceMessage" class="muted-text"></span></div>
+        <button id="startMockButton" class="button button--primary button--large button--full" type="button">模擬試験を開始</button>
+        <button id="resumeMockButton" class="button button--soft button--full" type="button" hidden>前回の模擬試験を再開</button>
+      </section>
+
+      <section id="mockSession" class="mock-session" hidden>
+        <div class="mock-toolbar">
+          <div><span id="mockSessionTitle" class="eyebrow">模擬試験</span><strong id="mockSessionProgress">1 / 10</strong></div>
+          <div><button id="mockNavigatorButton" class="button button--ghost" type="button">問題一覧</button><button id="abortMockButton" class="button button--ghost button--danger" type="button">中断</button></div>
+        </div>
+        <article class="question-card question-card--mock">
+          <div id="mockMeta" class="meta-list"></div>
+          <h2 class="content-label">問題</h2>
+          <div id="mockQuestionText" class="question-text"></div>
+          <label class="field mock-answer-field"><span>自分の答案</span><textarea id="mockAnswerInput" rows="12" placeholder="条文・規範・あてはめ・結論を意識して記述してください。"></textarea></label>
+          <label class="check mock-review-check"><input id="mockReviewCheckbox" type="checkbox"><span>後で見直す</span></label>
+          <div class="question-controls"><button id="mockPreviousButton" class="button button--ghost" type="button">← 前へ</button><button id="mockNextButton" class="button button--soft" type="button">次へ →</button></div>
+        </article>
+        <button id="submitMockButton" class="button button--primary button--large button--full" type="button">提出して自己採点へ</button>
+      </section>
+
+      <section id="mockReview" class="mock-review" hidden>
+        <div class="section-heading-row"><div><p class="eyebrow">SELF REVIEW</p><h2>模範解答と比較</h2></div><span id="mockReviewProgress" class="count-pill"></span></div>
+        <div id="mockReviewItems"></div>
+        <button id="finishMockReviewButton" class="button button--primary button--large button--full" type="button">自己採点を確定</button>
+      </section>
+
+      <section id="mockResult" class="mock-result" hidden>
+        <div id="mockResultSummary" class="result-hero"></div>
+        <div id="mockResultLists" class="result-lists"></div>
+        <div class="action-grid"><button id="reviewWeakAfterMockButton" class="button button--primary" type="button">苦手問題を復習</button><button id="retryMockButton" class="button button--soft" type="button">同じ条件でもう一度</button><button id="newMockButton" class="button button--ghost" type="button">新しい模擬試験</button></div>
+      </section>
+    </section>
+
+    <section id="view-bank" class="app-view" data-view="bank" aria-labelledby="bankHeading" hidden>
+      <div class="view-heading">
+        <div><p class="eyebrow">QUESTION BANK</p><h1 id="bankHeading">問題一覧</h1><p id="bankCountLabel" class="muted-text">全131問</p></div>
+        <div class="view-heading__actions"><button id="clearBankSelectionButton" class="button button--ghost" type="button">選択解除</button></div>
+      </div>
+      <section class="panel bank-filters">
+        <div class="filter-grid">
+          <label class="field field--wide"><span>全文検索</span><input id="bankSearchInput" type="search" placeholder="問題文・条文・論点・模範解答などを検索"></label>
+          <label class="field"><span>授業回</span><select id="bankLectureSelect"></select></label>
+          <label class="field"><span>分野</span><select id="bankCategorySelect"></select></label>
+          <label class="field"><span>評価</span><select id="bankRatingSelect"><option value="all">すべて</option><option value="unanswered">未回答</option><option value="bad">ダメ</option><option value="unsure">微妙</option><option value="good">理解した</option><option value="mastered">習得済み</option></select></label>
+          <label class="field"><span>並べ替え</span><select id="bankSortSelect"><option value="id-asc">問題番号順</option><option value="id-desc">問題番号逆順</option><option value="weakness">苦手度順</option><option value="last">最終回答が新しい順</option><option value="reviews">回答回数順</option></select></label>
+          <div class="check-grid field--wide"><label class="check"><input id="bankFavoriteOnly" type="checkbox"><span>お気に入り</span></label><label class="check"><input id="bankMemoOnly" type="checkbox"><span>メモあり</span></label><label class="check"><input id="bankImportantOnly" type="checkbox"><span>★重要</span></label><label class="check"><input id="bankPrecedentOnly" type="checkbox"><span>判例問題</span></label></div>
+        </div>
+      </section>
+      <div id="selectionBar" class="selection-bar" hidden>
+        <strong><span id="selectionCount">0</span>問を選択中</strong>
+        <div><button id="studySelectedButton" class="button button--soft" type="button">選択問題で学習</button><button id="mockSelectedButton" class="button button--soft" type="button">選択問題で模試</button><button id="saveSelectedSetButton" class="button button--primary" type="button">問題セットとして保存</button><button id="shareSelectedButton" class="button button--ghost" type="button">共有URL</button></div>
+      </div>
+      <div id="bankList" class="bank-list"></div>
+      <div class="pagination"><button id="bankPreviousPage" class="button button--ghost" type="button">前のページ</button><span id="bankPageLabel">1 / 1</span><button id="bankNextPage" class="button button--ghost" type="button">次のページ</button></div>
+    </section>
+
+    <section id="view-settings" class="app-view" data-view="settings" aria-labelledby="settingsHeading" hidden>
+      <div class="view-heading"><div><p class="eyebrow">SETTINGS</p><h1 id="settingsHeading">設定・データ管理</h1></div></div>
+      <div class="settings-grid">
+        <section class="settings-card"><h2>表示</h2><label class="field"><span>テーマ</span><select id="themeSelect"><option value="system">端末設定に合わせる</option><option value="light">ライト</option><option value="dark">ダーク</option></select></label><label class="check"><input id="compactModeCheckbox" type="checkbox"><span>問題一覧をコンパクト表示</span></label></section>
+        <section class="settings-card"><h2>アプリとして使う</h2><p class="muted-text">GitHub Pagesで開くと、ホーム画面へ追加してオフラインでも利用できます。</p><button id="installPwaButton" class="button button--primary button--full" type="button" hidden>アプリとしてインストール</button><button id="pwaHelpButton" class="button button--ghost button--full" type="button">端末別の追加方法</button></section>
+        <section class="settings-card settings-card--wide"><h2>進捗のバックアップ</h2><p class="muted-text">PCとスマホは自動同期されません。JSONを書き出して移行できます。</p><div class="action-grid"><button id="exportDataButton" class="button button--primary" type="button">JSONを書き出す</button><label class="button button--soft file-button">JSONを読み込む<input id="importDataInput" type="file" accept="application/json,.json" hidden></label></div></section>
+        <section class="settings-card settings-card--wide"><h2>保存した問題セット</h2><div id="customSetsList" class="custom-set-list empty-inline">まだ問題セットはありません。</div></section>
+        <section class="settings-card settings-card--wide"><h2>模擬試験履歴</h2><div id="mockHistoryList" class="history-list empty-inline">まだ模擬試験履歴はありません。</div></section>
+        <section class="settings-card settings-card--wide danger-zone"><h2>データをリセット</h2><p>削除前に確認します。問題データそのものは消えません。</p><div class="reset-grid"><button class="button button--ghost button--danger" type="button" data-reset="ratings">評価だけ</button><button class="button button--ghost button--danger" type="button" data-reset="notes">メモだけ</button><button class="button button--ghost button--danger" type="button" data-reset="favorites">お気に入りだけ</button><button class="button button--ghost button--danger" type="button" data-reset="essays">答案だけ</button><button class="button button--ghost button--danger" type="button" data-reset="mock">模試履歴だけ</button><button class="button button--danger" type="button" data-reset="all">すべての学習データ</button></div></section>
+      </div>
+    </section>
+  </main>
+
+  <nav class="mobile-nav" aria-label="メインメニュー">
+    <button class="mobile-nav__item is-active" type="button" data-nav="home" aria-current="page"><span>⌂</span><small>ホーム</small></button>
+    <button class="mobile-nav__item" type="button" data-nav="study"><span>問</span><small>学習</small></button>
+    <button class="mobile-nav__item" type="button" data-nav="mock"><span>試</span><small>模試</small></button>
+    <button class="mobile-nav__item" type="button" data-nav="bank"><span>☷</span><small>一覧</small></button>
+    <button class="mobile-nav__item" type="button" data-nav="settings"><span>⚙</span><small>設定</small></button>
+  </nav>
+
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <dialog id="appDialog" class="app-dialog" aria-labelledby="dialogTitle">
+    <form method="dialog" class="dialog-shell">
+      <div class="dialog-header"><h2 id="dialogTitle">確認</h2><button class="icon-button" value="cancel" aria-label="閉じる">×</button></div>
+      <div id="dialogBody" class="dialog-body"></div>
+      <div id="dialogActions" class="dialog-actions"></div>
+    </form>
+  </dialog>
+
+  <dialog id="searchDialog" class="app-dialog app-dialog--search" aria-labelledby="searchDialogTitle">
+    <div class="dialog-shell">
+      <div class="dialog-header"><h2 id="searchDialogTitle">問題を検索</h2><button id="closeSearchDialog" class="icon-button" type="button" aria-label="閉じる">×</button></div>
+      <div class="dialog-body"><label class="field"><span>キーワード</span><input id="globalSearchInput" type="search" placeholder="無権代理、時効、709条…" autocomplete="off"></label><p id="globalSearchCount" class="muted-text"></p><div id="globalSearchResults" class="search-results"></div></div>
+    </div>
+  </dialog>
+
+  <dialog id="mockNavigatorDialog" class="app-dialog" aria-labelledby="mockNavigatorTitle">
+    <div class="dialog-shell"><div class="dialog-header"><h2 id="mockNavigatorTitle">問題一覧</h2><button id="closeMockNavigator" class="icon-button" type="button" aria-label="閉じる">×</button></div><div class="dialog-body"><div id="mockNavigatorGrid" class="mock-nav-grid"></div><p class="legend"><span>未回答</span><span>回答済み</span><span>見直し</span></p></div></div>
+  </dialog>
+
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
