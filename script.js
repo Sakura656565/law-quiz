@@ -1,8 +1,8 @@
-/* 民法ⅠA 学習アプリ v2.0 — GitHub Pages / ローカル対応 */
+/* 民法ⅠA 学習アプリ v2.1 — 各問独立表示対応 / GitHub Pages・ローカル対応 */
 (function () {
   "use strict";
 
-  const APP_VERSION = "2.0.0";
+  const APP_VERSION = "2.1.0";
   const SCHEMA_VERSION = 2;
   const STORAGE_KEY = "lawQuizApp.v2.data";
   const ACTIVE_MOCK_KEY = "lawQuizApp.v2.activeMock";
